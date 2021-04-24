@@ -5,7 +5,7 @@ if (DEFINED MCU)
 endif()
 # Project information
 project(Gnss
-	VERSION 1.1.1
+	VERSION 1.1.0
 	DESCRIPTION "GNSS interface"
 	LANGUAGES CXX
 )
