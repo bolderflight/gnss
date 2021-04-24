@@ -68,7 +68,7 @@ struct GnssData {
 template<class Impl>
 class Gnss {
  public:
-  Imu(HardwareSerial *bus) : impl_(bus) {}
+  Gnss(HardwareSerial *bus) : impl_(bus) {}
   bool Init(const GnssConfig &ref) {return impl_.Init(ref);}
   bool Read(GnssData * const ptr) {return impl_.Read(ptr);}
 
