@@ -47,6 +47,7 @@ struct GnssConfig {
 struct GnssData {
   bool new_data;
   bool healthy;
+  bool rel_pos_avail;
   GnssFix fix;
   int8_t num_sats;
   int16_t week;
@@ -58,6 +59,8 @@ struct GnssData {
   float hdop;
   float vdop;
   Eigen::Vector3f ned_vel_mps;
+  Eigen::Vector3f rel_pos_m;
+  Eigen::Vector3f rel_acc_m;
   double lat_rad;
   double lon_rad;
   double tow_s;
@@ -65,7 +68,7 @@ struct GnssData {
 template<class Impl>
 class Gnss {
  public:
-  Imu(HardwareSerial *bus) : impl_(bus) {}
+  explicit Gnss(HardwareSerial *bus) : impl_(bus) {}
   bool Init(const GnssConfig &ref) {return impl_.Init(ref);}
   bool Read(GnssData * const ptr) {return impl_.Read(ptr);}
 

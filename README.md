@@ -52,6 +52,7 @@ The sampling period is how often the GNSS receiver should provide new data - typ
 | --- | --- |
 | bool new_data | Whether new data was received |
 | bool healthy | Whether the GNSS receiver is healthy |
+| bool rel_pos_avail | Whether relative position data, from RTK, is available |
 | GnssFix fix | The GNSS fix status |
 | int8_t num_sats | The number of satellites used in the solution |
 | int16_t week | The GNSS week number |
@@ -63,6 +64,8 @@ The sampling period is how often the GNSS receiver should provide new data - typ
 | float hdop | Horizontal Dilution of Precision |
 | float vdop | Vertical Dilution of Precision |
 | Eigen::Vector3f ned_vel_mps | North, east down (NED) velocity, m/s |
+| Eigen::Vector3f rel_pos_m | Relative position of a rover (NED) in a base station frame, m |
+| Eigen::Vector3f rel_acc_m | Relative position accuracy of a rover (NED) in a base station frame, m |
 | double lat_rad | Latitude, rad |
 | double lon_rad | Longitude, rad |
 | double tow_s | GNSS time of week, s |
@@ -77,6 +80,8 @@ GnssFix is defined by:
 | FIX_DGNSS | 4 | DGPS/SBAS/CORS aided 3D position |
 | FIX_RTK_FLOAT | 5 | RTK fix with floating integer ambiguities |
 | FIX_RTK_FIXED | 6 | RTK fix with fixed integer ambiguities |
+
+If an RTK solution is used, relative position of the rover in the base station frame should be available. *rel_pos_avail* indicates availability, and the position and accuracy, in a north-east-down (NED) sense are given by *rel_pos_m* and *rel_acc_m*, respectively. This could be useful in surveying applications, where location of data with respect to some reference point is important, or for implementing autonomous landing where the base station can be placed near the touchdown point.
 
 **Gnss** The *Gnss* class defines a common interface to IMU sensors. It is templated with the object implementing this interface for the desired sensor. For example, the uBlox implementation may be:
 
