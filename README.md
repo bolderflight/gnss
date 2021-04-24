@@ -67,6 +67,17 @@ The sampling period is how often the GNSS receiver should provide new data - typ
 | double lon_rad | Longitude, rad |
 | double tow_s | GNSS time of week, s |
 
+GnssFix is defined by:
+
+| Enum | Value | Description |
+| --- | --- | --- |
+| FIX_NONE | 1 | No GNSS fix |
+| FIX_2D | 2 | 2D fix |
+| FIX_3D | 3 | 3D fix |
+| FIX_DGNSS | 4 | DGPS/SBAS/CORS aided 3D position |
+| FIX_RTK_FLOAT | 5 | RTK fix with floating integer ambiguities |
+| FIX_RTK_FIXED | 6 | RTK fix with fixed integer ambiguities |
+
 **Gnss** The *Gnss* class defines a common interface to IMU sensors. It is templated with the object implementing this interface for the desired sensor. For example, the uBlox implementation may be:
 
 ```C++
