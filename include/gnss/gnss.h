@@ -23,8 +23,8 @@
 * IN THE SOFTWARE.
 */
 
-#ifndef INCLUDE_IMU_IMU_H_
-#define INCLUDE_IMU_IMU_H_
+#ifndef INCLUDE_GNSS_GNSS_H_
+#define INCLUDE_GNSS_GNSS_H_
 
 #include "Eigen/Core"
 #include "Eigen/Dense"
@@ -38,7 +38,7 @@ enum class GnssFix : int8_t {
   FIX_3D = 3,
   FIX_DGNSS = 4,
   FIX_RTK_FLOAT = 5,
-  FIX_RTK_FIXED = 6 
+  FIX_RTK_FIXED = 6
 };
 struct GnssConfig {
   int32_t baud;
@@ -75,4 +75,4 @@ class Gnss {
 
 }  // namespace bfs
 
-#endif  // INCLUDE_IMU_IMU_H_
+#endif  // INCLUDE_GNSS_GNSS_H_
