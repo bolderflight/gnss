@@ -1,0 +1,41 @@
+cmake_minimum_required(VERSION 3.13)
+if (DEFINED MCU)
+	# Setting up the toolchain
+	set(CMAKE_TOOLCHAIN_FILE "${CMAKE_SOURCE_DIR}/cmake/cortex.cmake")
+endif()
+# Project information
+project(Gnss
+	VERSION 1.0.0
+	DESCRIPTION "GNSS interface"
+	LANGUAGES CXX
+)
+if (DEFINED MCU)
+	# Grab the processor and set up definitions and compile options
+	include(${CMAKE_SOURCE_DIR}/cmake/config_mcu.cmake)
+	configMcu(${MCU})
+	include(FetchContent)
+	# Fetch core
+	FetchContent_Declare(
+		core
+		GIT_REPOSITORY 	https://github.com/bolderflight/core.git
+		GIT_TAG v2.0.4
+	)
+	FetchContent_MakeAvailable(core)
+	# Fetch eigen
+	FetchContent_Declare(
+		eigen
+		GIT_REPOSITORY 	https://github.com/bolderflight/eigen.git
+		GIT_TAG v1.0.0
+	)
+	FetchContent_MakeAvailable(eigen)
+	# Add the library target
+	add_library(gnss INTERFACE)
+	# Link libraries
+	target_link_libraries(gnss
+		INTERFACE
+			core
+			eigen
+	)
+	# Setup include directories 
+	target_include_directories(gnss INTERFACE include/)
+endif()
