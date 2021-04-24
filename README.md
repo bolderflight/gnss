@@ -86,7 +86,7 @@ bfs::Gnss<bfs::Ublox> gnss(&Serial1);
 
 Similar to how a pure virtual class can be used to define an interface using dynamic polymorphism, this approach uses static polymorphism.
 
-**Gnss(HardwareSerial *bus)** creates a Gnss object; a pointer to the Serial bus object is passed.
+**Gnss(HardwareSerial &ast;bus)** creates a Gnss object; a pointer to the Serial bus object is passed.
 
 **bool Init(const GnssConfig &ref)** initializes communication with the sensor and configures it. Returns true if communication is established and configuration was successful.
 
