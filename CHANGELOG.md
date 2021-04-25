@@ -1,5 +1,8 @@
 # Changelog
 
+## v1.2.1
+- Fixed a README typo
+
 ## v1.2.0
 - Updated period_ms to sampling_period_ms to make it more clear what the value is defining.
 
