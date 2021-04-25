@@ -42,7 +42,7 @@ This library is within the namespace *bfs*.
 | Name | Description |
 | --- | --- |
 | int32_t baud | The GNSS receiver baudrate |
-| int32_t period_ms | The GNSS sampling period, ms |
+| int32_t sampling_period_ms | The GNSS sampling period, ms |
 
 The sampling period is how often the GNSS receiver should provide new data - typically between 1000 (1 Hz) and 100 (10 Hz).
 
