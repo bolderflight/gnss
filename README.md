@@ -83,7 +83,7 @@ GnssFix is defined by:
 
 If an RTK solution is used, relative position of the rover in the base station frame should be available. *rel_pos_avail* indicates availability, and the position and accuracy, in a north-east-down (NED) sense are given by *rel_pos_m* and *rel_acc_m*, respectively. This could be useful in surveying applications, where location of data with respect to some reference point is important, or for implementing autonomous landing where the base station can be placed near the touchdown point.
 
-**Gnss** The *Gnss* class defines a common interface to IMU sensors. It is templated with the object implementing this interface for the desired sensor. For example, the uBlox implementation may be:
+**Gnss** The *Gnss* class defines a common interface to GNSS receivers. It is templated with the object implementing this interface for the desired sensor. For example, the uBlox implementation may be:
 
 ```C++
 bfs::Gnss<bfs::Ublox> gnss(&Serial1);
