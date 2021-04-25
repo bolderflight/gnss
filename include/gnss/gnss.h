@@ -42,7 +42,7 @@ enum class GnssFix : int8_t {
 };
 struct GnssConfig {
   int32_t baud;
-  int32_t period_ms;
+  int32_t sampling_period_ms;
 };
 struct GnssData {
   bool new_data;
