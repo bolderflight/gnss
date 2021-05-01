@@ -23,52 +23,25 @@
 * IN THE SOFTWARE.
 */
 
-#ifndef INCLUDE_GNSS_GNSS_H_
-#define INCLUDE_GNSS_GNSS_H_
+#include "gnss/gnss.h"
 
-#include <concepts>
-#include "Eigen/Core"
-#include "Eigen/Dense"
-#include "core/core.h"
-
-namespace bfs {
-
-enum class GnssFix : int8_t {
-  FIX_NONE = 1,
-  FIX_2D = 2,
-  FIX_3D = 3,
-  FIX_DGNSS = 4,
-  FIX_RTK_FLOAT = 5,
-  FIX_RTK_FIXED = 6
-};
-struct GnssConfig {
-  HardwareSerial *bus;
-  int16_t sampling_period_ms;
-  int32_t baud;
-};
-struct GnssData {
-  bool new_data;
-  bool healthy;
-  GnssFix fix;
-  int8_t num_sats;
-  int16_t week;
-  float alt_wgs84_m;
-  float alt_msl_m;
-  float horz_acc_m;
-  float vert_acc_m;
-  float vel_acc_mps;
-  Eigen::Vector3f ned_vel_mps;
-  double lat_rad;
-  double lon_rad;
-  double tow_s;
+/* Example class compiant with the Gnss interface */
+class GnssExample {
+ public:
+  bool Init(const bfs::GnssConfig &ref) {}
+  bool Read(bfs::GnssData * const ptr) {}
 };
 
-template<typename T>
-concept Gnss = requires(T gnss, const GnssConfig &ref, GnssData * const ptr) {
-  { gnss.Init(ref) } -> std::same_as<bool>;
-  { gnss.Read(ptr) } -> std::same_as<bool>;
-}; // NOLINT - gets confused with concepts and semicolon after braces
+/* Checking that the ImuExample class meets the requirements of bfs::Gnss */
+static_assert(bfs::Gnss<GnssExample>,
+  "GNSS example should conform to the GNSS interface");
 
-}  // namespace bfs
+/* Function that is templated against the GNSS interface */
+template<bfs::Gnss T>
+bool InitGnss(T gnss, const bfs::GnssConfig &config) {
+  return gnss.Init(config);
+}
 
-#endif  // INCLUDE_GNSS_GNSS_H_
+int main() {
+
+}
