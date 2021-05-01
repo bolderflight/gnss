@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.1.0
+- Updated README
+- Removed MSL altitude for now, this is easy enough to estimate post-flight and not estimated super accurately on the GNSS receiver. For instance, the uBlox receivers use EGM96 with a 10m x 10m grid and maybe some linear fitting to estimate MSL altitude, leading to a few meter mis-match from what's expected.
+
 ## v2.0.0
 - Updated to use concepts to define the interface
 
