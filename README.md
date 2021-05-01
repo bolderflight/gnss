@@ -53,8 +53,8 @@ This library is within the namespace *bfs*.
 | Name | Description |
 | --- | --- |
 | HardwareSerial *bus | A pointer to the serial port to the communicate with the receiver |
-| int16_t sampling_period_ms | The sampling period for the receiver, used for health and status monitoring, ms. Typically 100 - 1000 ms (1 - 10 Hz) |
 | int32_t baud | The baud rate for communicating with the receiver. |
+| int16_t sampling_period_ms | The sampling period for the receiver, used for health and status monitoring, ms. Typically 100 - 1000 ms (1 - 10 Hz) |
 
 **struct GnssData** defines a structure of data returned from the receiver. The data fields are:
 

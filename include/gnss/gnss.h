@@ -43,8 +43,8 @@ enum class GnssFix : int8_t {
 };
 struct GnssConfig {
   HardwareSerial *bus;
-  int16_t sampling_period_ms;
   int32_t baud;
+  int16_t sampling_period_ms;
 };
 struct GnssData {
   bool new_data;
