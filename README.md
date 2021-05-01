@@ -1,11 +1,11 @@
 # gnss
-Defines a common interface for our Global Navigation Satellite System (GNSS) receivers.
+Defines a common interface for our GNSS receivers.
    * [License](LICENSE.md)
    * [Changelog](CHANGELOG.md)
    * [Contributing guide](CONTRIBUTING.md)
 
 # Description
-This library abstracts away GNSS hardware specifics by defining common configuration and data sturctures and an interface class defining common methods for GNSS receivers. This enables the designer of higher-level software to reference this class, rather than individual sensor drivers, and have a fixed interface to design against.
+This library defines what a *Gnss* interface should look like, enabling higher level code to abstract out GNSS receiver specifics and design against this interface.
 
 ## Installation
 CMake is used to build this library, which is exported as a library target called *gnss*. The header is added as:
@@ -21,7 +21,7 @@ cmake .. -DMCU=MK66FX1M0
 make
 ```
 
-This will build the library. Notice that the *cmake* command includes a define specifying the microcontroller the code is being compiled for. This is required to correctly configure the code, CPU frequency, and compile/linker options. The available MCUs are:
+This will build the library and an example called *example*, which has source code located in *examples/example.cc*. Notice that the *cmake* command includes a define specifying the microcontroller the code is being compiled for. This is required to correctly configure the code, CPU frequency, and compile/linker options. The available MCUs are:
    * MK20DX128
    * MK20DX256
    * MK64FX512
@@ -37,62 +37,47 @@ This library is within the namespace *bfs*.
 
 ## Class / Methods
 
-**struct GnssConfig** defines a structure used to configure the sensor. The data fields are:
-
-| Name | Description |
-| --- | --- |
-| int32_t baud | The GNSS receiver baudrate |
-| int32_t sampling_period_ms | The GNSS sampling period, ms |
-
-The sampling period is how often the GNSS receiver should provide new data - typically between 1000 (1 Hz) and 100 (10 Hz).
-
-**struct GnssData** defines a structure of data returned from the sensor. The data fields are:
-
-| Name | Description |
-| --- | --- |
-| bool new_data | Whether new data was received |
-| bool healthy | Whether the GNSS receiver is healthy |
-| bool rel_pos_avail | Whether relative position data, from RTK, is available |
-| GnssFix fix | The GNSS fix status |
-| int8_t num_sats | The number of satellites used in the solution |
-| int16_t week | The GNSS week number |
-| float alt_wgs84_m | Altitude above the WGS84 ellipsoid, m |
-| float alt_msl_m | Altitude above Mean Sea Level (MSL) |
-| float horz_acc_m | Horizontal position accuracy, m |
-| float vert_acc_m | Vertical position accuracy, m |
-| float vel_acc_mps | Velocity accuracy, m/s |
-| float hdop | Horizontal Dilution of Precision |
-| float vdop | Vertical Dilution of Precision |
-| Eigen::Vector3f ned_vel_mps | North, east down (NED) velocity, m/s |
-| Eigen::Vector3f rel_pos_m | Relative position of a rover (NED) in a base station frame, m |
-| Eigen::Vector3f rel_acc_m | Relative position accuracy of a rover (NED) in a base station frame, m |
-| double lat_rad | Latitude, rad |
-| double lon_rad | Longitude, rad |
-| double tow_s | GNSS time of week, s |
-
-GnssFix is defined by:
+**enum class GnssFix** specifies GNSS fix information for the receiver.
 
 | Enum | Value | Description |
 | --- | --- | --- |
 | FIX_NONE | 1 | No GNSS fix |
-| FIX_2D | 2 | 2D fix |
-| FIX_3D | 3 | 3D fix |
-| FIX_DGNSS | 4 | DGPS/SBAS/CORS aided 3D position |
-| FIX_RTK_FLOAT | 5 | RTK fix with floating integer ambiguities |
-| FIX_RTK_FIXED | 6 | RTK fix with fixed integer ambiguities |
+| FIX_2D | 2 | 2D GNSS fix |
+| FIX_3D | 3 | 3D GNSS fix |
+| FIX_DGNSS | 4 | 3D GNSS fix with differential GNSS corrections applied |
+| FIX_RTK_FLOAT | 5 | 3D GNSS fix with RTK float integer ambiguity |
+| FIX_RTK_FIXED | 6 | 3D GNSS fix with RTK fixed integer ambiguity |
 
-If an RTK solution is used, relative position of the rover in the base station frame should be available. *rel_pos_avail* indicates availability, and the position and accuracy, in a north-east-down (NED) sense are given by *rel_pos_m* and *rel_acc_m*, respectively. This could be useful in surveying applications, where location of data with respect to some reference point is important, or for implementing autonomous landing where the base station can be placed near the touchdown point.
+**struct GnssConfig** defines a structure used to configure the GNSS receiver. The data fields are:
 
-**Gnss** The *Gnss* class defines a common interface to GNSS receivers. It is templated with the object implementing this interface for the desired sensor. For example, the uBlox implementation may be:
+| Name | Description |
+| --- | --- |
+| HardwareSerial *bus | A pointer to the serial port to the communicate with the receiver |
+| int32_t baud | The baud rate for communicating with the receiver. |
+| int16_t sampling_period_ms | The sampling period for the receiver, used for health and status monitoring, ms. Typically 100 - 1000 ms (1 - 10 Hz) |
 
-```C++
-bfs::Gnss<bfs::Ublox> gnss(&Serial1);
-```
+**struct GnssData** defines a structure of data returned from the receiver. The data fields are:
 
-Similar to how a pure virtual class can be used to define an interface using dynamic polymorphism, this approach uses static polymorphism.
+| Name | Description |
+| --- | --- |
+| bool new_data | Whether new data was received |
+| bool healthy | Whether the receiver is healthy |
+| GnssFix fix | The GNSS fix type |
+| int8_t num_sats | Number of satellites used in the solution |
+| int16_t week | GNSS week number |
+| float alt_wgs84_m | Altitude above the WGS84 ellipsoid, m |
+| float horz_acc_m | Horizontal position accuracy estimate, m |
+| float vert_acc_m | Vertical position accuracy estimate, m |
+| float vel_acc_mps | Velocity accuracy estimate, m/s |
+| Eigen::Vector3f ned_vel_mps | Velocity in a North-East-Down (NED) sense, m/s |
+| double lat_rad | Latitude, rad |
+| double lon_rad | Longitude, rad |
+| double tow_s | GNSS time of week, s |
 
-**Gnss(HardwareSerial &ast;bus)** creates a Gnss object; a pointer to the Serial bus object is passed.
+Health is determined by whether the sensor fails to read 5 times in a row at the expected sampling rate.
 
-**bool Init(const GnssConfig &ref)** initializes communication with the sensor and configures it. Returns true if communication is established and configuration was successful.
+**Gnss** Concepts are used to define what an *Gnss* compliant object looks like and provide a means to templating against an *Gnss* interface. The two required methods are:
 
-**bool Read(GnssData &ast; const ptr)** reads data from the sensor. Returns true if new data was received.
+**bool Init(const GnssConfig &ref)** This method should receive an *GnssConfig* struct and should establish communication with the GNSS receiver. True is returned on successfully establishing communication with the receiver.
+
+**bool Read(GnssData &ast; const ptr)** This method should get new data from the receiver and return it using a pointer to the *GnssData* struct. True is returned if new data is received.
