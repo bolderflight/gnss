@@ -1,5 +1,8 @@
 # Changelog
 
+## v2.0.0
+- Updated to use concepts to define the interface
+
 ## v1.2.1
 - Fixed a README typo
 
