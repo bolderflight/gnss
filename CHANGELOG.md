@@ -1,5 +1,12 @@
 # Changelog
 
+## v2.2.0
+- Added back in MSL altitude.
+- Added ground track, ground speed, and ground track accuracy.
+- Added HDOP and VDOP.
+- Re-ordered config to optimize struct packing.
+- Changed time of week to uin32_t ms
+
 ## v2.1.0
 - Updated README
 - Removed MSL altitude for now, this is easy enough to estimate post-flight and not estimated super accurately on the GNSS receiver. For instance, the uBlox receivers use EGM96 with a 10m x 10m grid and maybe some linear fitting to estimate MSL altitude, leading to a few meter mis-match from what's expected.
