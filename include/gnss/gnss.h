@@ -42,9 +42,9 @@ enum class GnssFix : int8_t {
   FIX_RTK_FIXED = 6
 };
 struct GnssConfig {
-  HardwareSerial *bus;
-  int32_t baud;
   int16_t sampling_period_ms;
+  int32_t baud;
+  HardwareSerial *bus;
 };
 struct GnssData {
   bool new_data;
@@ -52,14 +52,20 @@ struct GnssData {
   GnssFix fix;
   int8_t num_sats;
   int16_t week;
+  uint32_t tow_ms;
   float alt_wgs84_m;
+  float alt_msl_m;
+  float hdop;
+  float vdop;
+  float track_rad;
+  float spd_mps;
   float horz_acc_m;
   float vert_acc_m;
   float vel_acc_mps;
+  float track_acc_rad;
   Eigen::Vector3f ned_vel_mps;
   double lat_rad;
   double lon_rad;
-  double tow_s;
 };
 
 template<typename T>
