@@ -31,13 +31,13 @@
 
 namespace bfs {
 
-enum class GnssFix : int8_t {
-  FIX_NONE = 1,
-  FIX_2D = 2,
-  FIX_3D = 3,
-  FIX_DGNSS = 4,
-  FIX_RTK_FLOAT = 5,
-  FIX_RTK_FIXED = 6
+enum GnssFix : int8_t {
+  GNSS_FIX_NONE = 1,
+  GNSS_FIX_2D = 2,
+  GNSS_FIX_3D = 3,
+  GNSS_FIX_DGNSS = 4,
+  GNSS_FIX_RTK_FLOAT = 5,
+  GNSS_FIX_RTK_FIXED = 6
 };
 struct GnssConfig {
   int16_t sampling_period_ms;
