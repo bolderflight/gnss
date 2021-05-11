@@ -1,5 +1,8 @@
 # Changelog
 
+## v2.3.0
+- Moved from Eigen and Enum to plain old data types to ease integration with Simulink autocode
+
 ## v2.2.0
 - Added back in MSL altitude.
 - Added ground track, ground speed, and ground track accuracy.

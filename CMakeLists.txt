@@ -5,7 +5,7 @@ if (DEFINED MCU)
 endif()
 # Project information
 project(Gnss
-	VERSION 2.2.0
+	VERSION 2.3.0
 	DESCRIPTION "GNSS interface"
 	LANGUAGES CXX
 )
@@ -21,20 +21,12 @@ if (DEFINED MCU)
 		GIT_TAG v2.0.5
 	)
 	FetchContent_MakeAvailable(core)
-	# Fetch eigen
-	FetchContent_Declare(
-		eigen
-		GIT_REPOSITORY 	https://github.com/bolderflight/eigen.git
-		GIT_TAG v2.0.0
-	)
-	FetchContent_MakeAvailable(eigen)
 	# Add the library target
 	add_library(gnss INTERFACE)
 	# Link libraries
 	target_link_libraries(gnss
 		INTERFACE
 			core
-			eigen
 	)
 	# Setup include directories 
 	target_include_directories(gnss INTERFACE include/)

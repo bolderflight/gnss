@@ -27,8 +27,6 @@
 #define INCLUDE_GNSS_GNSS_H_
 
 #include <concepts>
-#include "Eigen/Core"
-#include "Eigen/Dense"
 #include "core/core.h"
 
 namespace bfs {
@@ -49,10 +47,10 @@ struct GnssConfig {
 struct GnssData {
   bool new_data;
   bool healthy;
-  GnssFix fix;
+  int8_t fix;
   int8_t num_sats;
   int16_t week;
-  uint32_t tow_ms;
+  int32_t tow_ms;
   float alt_wgs84_m;
   float alt_msl_m;
   float hdop;
@@ -63,7 +61,7 @@ struct GnssData {
   float vert_acc_m;
   float vel_acc_mps;
   float track_acc_rad;
-  Eigen::Vector3f ned_vel_mps;
+  float ned_vel_mps[3];
   double lat_rad;
   double lon_rad;
 };
