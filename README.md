@@ -39,7 +39,7 @@ This library is within the namespace *bfs*.
 
 **enum class GnssFix** specifies GNSS fix information for the receiver.
 
-| Enum | Value | Description |
+| Enum | Value (int8_t) | Description |
 | --- | --- | --- |
 | FIX_NONE | 1 | No GNSS fix |
 | FIX_2D | 2 | 2D GNSS fix |
@@ -52,9 +52,9 @@ This library is within the namespace *bfs*.
 
 | Name | Description |
 | --- | --- |
-| HardwareSerial *bus | A pointer to the serial port to the communicate with the receiver |
-| int32_t baud | The baud rate for communicating with the receiver. |
 | int16_t sampling_period_ms | The sampling period for the receiver, used for health and status monitoring, ms. Typically 100 - 1000 ms (1 - 10 Hz) |
+| int32_t baud | The baud rate for communicating with the receiver. |
+| HardwareSerial *bus | A pointer to the serial port to the communicate with the receiver |
 
 **struct GnssData** defines a structure of data returned from the receiver. The data fields are:
 
@@ -62,17 +62,24 @@ This library is within the namespace *bfs*.
 | --- | --- |
 | bool new_data | Whether new data was received |
 | bool healthy | Whether the receiver is healthy |
-| GnssFix fix | The GNSS fix type |
+| int8_t fix | The GNSS fix type |
 | int8_t num_sats | Number of satellites used in the solution |
 | int16_t week | GNSS week number |
+| int32_t tow_ms | GNSS time of week, s |
 | float alt_wgs84_m | Altitude above the WGS84 ellipsoid, m |
+| float alt_msl_m | Altitude above Mean Sea Level, m |
+| float hdop | Horizontal dilution of precision |
+| float vdop | Vertical dilution of precision |
+| float track_rad | Ground track, rad |
+| float spd_mps | Ground speed, m/s |
 | float horz_acc_m | Horizontal position accuracy estimate, m |
 | float vert_acc_m | Vertical position accuracy estimate, m |
 | float vel_acc_mps | Velocity accuracy estimate, m/s |
-| Eigen::Vector3f ned_vel_mps | Velocity in a North-East-Down (NED) sense, m/s |
+| float track_acc_rad | Ground track accuracy, rad |
+| float ned_vel_mps[3] | Velocity in a North-East-Down (NED) sense, m/s |
 | double lat_rad | Latitude, rad |
 | double lon_rad | Longitude, rad |
-| double tow_s | GNSS time of week, s |
+
 
 Health is determined by whether the sensor fails to read 5 times in a row at the expected sampling rate.
 
