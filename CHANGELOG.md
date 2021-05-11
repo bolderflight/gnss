@@ -1,5 +1,8 @@
 # Changelog
 
+## v2.4.0
+- Moved GnssFix from an enum class to a plain enum
+
 ## v2.3.0
 - Moved from Eigen and Enum to plain old data types to ease integration with Simulink autocode
 
