@@ -37,7 +37,7 @@ This library is within the namespace *bfs*.
 
 ## Class / Methods
 
-**enum class GnssFix** specifies GNSS fix information for the receiver.
+**enum GnssFix** specifies GNSS fix information for the receiver.
 
 | Enum | Value (int8_t) | Description |
 | --- | --- | --- |
