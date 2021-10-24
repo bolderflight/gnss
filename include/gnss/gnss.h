@@ -27,7 +27,7 @@
 #define INCLUDE_GNSS_GNSS_H_
 
 #include <concepts>
-#include "core/core.h"
+#include <cstdint>
 
 namespace bfs {
 
@@ -39,11 +39,7 @@ enum GnssFix : int8_t {
   GNSS_FIX_RTK_FLOAT = 5,
   GNSS_FIX_RTK_FIXED = 6
 };
-struct GnssConfig {
-  int16_t sampling_period_ms;
-  int32_t baud;
-  HardwareSerial *bus;
-};
+struct GnssConfig {};
 struct GnssData {
   bool new_data;
   bool healthy;
@@ -67,9 +63,9 @@ struct GnssData {
 };
 
 template<typename T>
-concept Gnss = requires(T gnss, const GnssConfig &ref, GnssData * const ptr) {
-  { gnss.Init(ref) } -> std::same_as<bool>;
-  { gnss.Read(ptr) } -> std::same_as<bool>;
+concept Gnss = requires(T gnss, const GnssConfig &ref) {
+  { gnss.Config(ref) } -> std::same_as<bool>;
+  { gnss.gnss_data() } -> std::same_as<GnssData>;
 }; // NOLINT - gets confused with concepts and semicolon after braces
 
 }  // namespace bfs
