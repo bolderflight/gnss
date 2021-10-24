@@ -27,6 +27,7 @@
 #define INCLUDE_GNSS_GNSS_H_
 
 #include <concepts>
+#include <optional>
 #include <cstdint>
 
 namespace bfs {
@@ -39,7 +40,17 @@ enum GnssFix : int8_t {
   GNSS_FIX_RTK_FLOAT = 5,
   GNSS_FIX_RTK_FIXED = 6
 };
-struct GnssConfig {};
+struct GnssRtkConfig {};
+struct GnssConfig {
+  std::optional<GnssRtkConfig> gnss_rtk;
+};
+struct GnssRelPosData {
+  bool valid;
+  float baseline_acc_m;
+  float ned_pos_acc_m[3];
+  double baseline_m;
+  double ned_pos_m[3];
+};
 struct GnssData {
   bool new_data;
   bool healthy;
@@ -49,8 +60,14 @@ struct GnssData {
   int32_t tow_ms;
   float alt_wgs84_m;
   float alt_msl_m;
+  float gdop;
+  float pdop;
+  float tdop;
   float hdop;
   float vdop;
+  float ndop;
+  float edop;
+  float time_acc_s;
   float track_rad;
   float spd_mps;
   float horz_acc_m;
@@ -60,6 +77,7 @@ struct GnssData {
   float ned_vel_mps[3];
   double lat_rad;
   double lon_rad;
+  std::optional<GnssRelPosData> rel_pos;
 };
 
 template<typename T>

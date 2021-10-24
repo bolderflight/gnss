@@ -1,5 +1,9 @@
 # Changelog
 
+## v3.1.0
+- Added additional DoP terms
+- Added optional RTK config and data
+
 ## v3.0.0
 - Removed device config items, since they are now in the Sensors interface
 
