@@ -39,9 +39,7 @@ enum GnssFix : int8_t {
   GNSS_FIX_RTK_FLOAT = 5,
   GNSS_FIX_RTK_FIXED = 6
 };
-struct GnssConfig {
-
-};
+struct GnssConfig {};
 struct GnssData {
   bool new_data;
   bool healthy;
