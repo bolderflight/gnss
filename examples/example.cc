@@ -28,18 +28,18 @@
 /* Example class compiant with the Gnss interface */
 class GnssExample {
  public:
-  bool Init(const bfs::GnssConfig &ref) {}
-  bool Read(bfs::GnssData * const ptr) {}
+  bool Config(const bfs::GnssConfig &ref) {}
+  bfs::GnssData gnss_data() {}
 };
 
-/* Checking that the ImuExample class meets the requirements of bfs::Gnss */
+/* Checking that the GnssExample class meets the requirements of bfs::Gnss */
 static_assert(bfs::Gnss<GnssExample>,
   "GNSS example should conform to the GNSS interface");
 
 /* Function that is templated against the GNSS interface */
 template<bfs::Gnss T>
 bool InitGnss(T gnss, const bfs::GnssConfig &config) {
-  return gnss.Init(config);
+  return gnss.Config(config);
 }
 
 int main() {
