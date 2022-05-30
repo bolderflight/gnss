@@ -2,7 +2,7 @@
 * Brian R Taylor
 * brian.taylor@bolderflight.com
 * 
-* Copyright (c) 2021 Bolder Flight Systems Inc
+* Copyright (c) 2022 Bolder Flight Systems Inc
 *
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the “Software”), to
@@ -28,7 +28,6 @@
 /* Example class compiant with the Gnss interface */
 class GnssExample {
  public:
-  bool Config(const bfs::GnssConfig &ref) {}
   bfs::GnssData gnss_data() {}
 };
 
@@ -38,8 +37,8 @@ static_assert(bfs::Gnss<GnssExample>,
 
 /* Function that is templated against the GNSS interface */
 template<bfs::Gnss T>
-bool InitGnss(T gnss, const bfs::GnssConfig &config) {
-  return gnss.Config(config);
+bool ReadGnss(T gnss) {
+  return gnss.gnss_data();
 }
 
 int main() {

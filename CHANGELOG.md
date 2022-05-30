@@ -1,5 +1,9 @@
 # Changelog
 
+## v3.2.0
+- Updated data to reflect common available items between uBlox and VectorNav
+- Removed config, since no config is needed / used
+
 ## v3.1.0
 - Added additional DoP terms
 - Added optional RTK config and data

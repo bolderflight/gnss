@@ -2,7 +2,7 @@
 * Brian R Taylor
 * brian.taylor@bolderflight.com
 * 
-* Copyright (c) 2021 Bolder Flight Systems Inc
+* Copyright (c) 2022 Bolder Flight Systems Inc
 *
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the “Software”), to
@@ -40,15 +40,9 @@ enum GnssFix : int8_t {
   GNSS_FIX_RTK_FLOAT = 5,
   GNSS_FIX_RTK_FIXED = 6
 };
-struct GnssRtkConfig {};
-struct GnssConfig {
-  std::optional<GnssRtkConfig> gnss_rtk;
-};
 struct GnssRelPosData {
   bool valid;
-  float baseline_acc_m;
   float ned_pos_acc_m[3];
-  double baseline_m;
   double ned_pos_m[3];
 };
 struct GnssData {
@@ -57,32 +51,22 @@ struct GnssData {
   int8_t fix;
   int8_t num_sats;
   int16_t week;
-  int32_t tow_ms;
   float alt_wgs84_m;
-  float alt_msl_m;
-  float gdop;
-  float pdop;
-  float tdop;
-  float hdop;
-  float vdop;
-  float ndop;
-  float edop;
-  float time_acc_s;
-  float track_rad;
-  float spd_mps;
   float horz_acc_m;
   float vert_acc_m;
   float vel_acc_mps;
-  float track_acc_rad;
+  float time_acc_s;
   float ned_vel_mps[3];
+  double tow_s;
   double lat_rad;
   double lon_rad;
-  std::optional<GnssRelPosData> rel_pos;
+  double ecef_pos_acc_m;
+  double ecef_pos_m[3];
+  GnssRelPosData rel_pos;
 };
 
 template<typename T>
-concept Gnss = requires(T gnss, const GnssConfig &ref) {
-  { gnss.Config(ref) } -> std::same_as<bool>;
+concept Gnss = requires(T gnss) {
   { gnss.gnss_data() } -> std::same_as<GnssData>;
 }; // NOLINT - gets confused with concepts and semicolon after braces
 

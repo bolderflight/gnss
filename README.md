@@ -1,4 +1,8 @@
-# gnss
+[![Pipeline](https://gitlab.com/bolderflight/software/gnss/badges/main/pipeline.svg)](https://gitlab.com/bolderflight/software/gnss/) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+![Bolder Flight Systems Logo](img/logo-words_75.png)
+
+# Gnss
 Defines a common interface for our GNSS receivers.
    * [License](LICENSE.md)
    * [Changelog](CHANGELOG.md)
@@ -47,26 +51,30 @@ This library is within the namespace *bfs*.
 | bool healthy | Whether the receiver is healthy |
 | int8_t fix | The GNSS fix type |
 | int8_t num_sats | Number of satellites used in the solution |
-| int16_t week | GNSS week number |
-| int32_t tow_ms | GNSS time of week, s |
+| int16_t week | GPS week number |
 | float alt_wgs84_m | Altitude above the WGS84 ellipsoid, m |
-| float alt_msl_m | Altitude above Mean Sea Level, m |
-| float hdop | Horizontal dilution of precision |
-| float vdop | Vertical dilution of precision |
-| float track_rad | Ground track, rad |
-| float spd_mps | Ground speed, m/s |
 | float horz_acc_m | Horizontal position accuracy estimate, m |
 | float vert_acc_m | Vertical position accuracy estimate, m |
 | float vel_acc_mps | Velocity accuracy estimate, m/s |
-| float track_acc_rad | Ground track accuracy, rad |
-| float ned_vel_mps[3] | Velocity in a North-East-Down (NED) sense, m/s |
+| float time_acc_s | Time accuracy estimate, s |
+| float ned_vel_mps[3] | Velocity in a North-East-Down (NED) frame, m/s |
+| double tow_s | GPS time of week, s |
 | double lat_rad | Latitude, rad |
 | double lon_rad | Longitude, rad |
+| double ecef_pos_acc_m | ECEF position accuracy, m |
+| double ecef_pos_m[3] | ECEF position, m |
+| GnssRelPosData rel_pos | Relative position data |
+
+**struct GnssRelPosData** defines a structure of relative position data. The data fields are:
+
+| Name | Description |
+| ---  | --- |
+| bool valid | Whether relative position data is available and valid |
+| float ned_pos_acc_m[3] | Estimated relative position accuracy in a North-East-Down (NED) frame, m |
+| double ned_pos_m[3] | Relative position in a North-East-Down (NED) frame, m |
 
 Health is determined by whether the sensor fails to read 5 times in a row at the expected sampling rate.
 
 **Gnss** Concepts are used to define what an *Gnss* compliant object looks like and provide a means to templating against an *Gnss* interface. The required methods are:
-
-**bool Config(const GnssConfig &ref)** This method should receive a *GnssConfig* struct and setup the sensor driver configuration. Note that the configuration should be applied in the *Init* method, this simply checks the configuration for validity and sets up the sensor driver object. True is returned if the config is valid, otherwise false if returned.
 
 **GnssData gnss_data()** This method returns the *GnssData* from the last successful *Read*.
